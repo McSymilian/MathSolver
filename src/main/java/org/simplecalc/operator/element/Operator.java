@@ -8,7 +8,7 @@ public class Operator extends Element<Operator.Type> {
     public enum Type {
         ADD("+"), SUB("-"),
         DIV("/"), MUL("*"),
-        POW("^"), SQR("sqr");
+        POW("^"), SUR("surd");
 
         public final String value;
 

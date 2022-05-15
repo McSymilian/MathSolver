@@ -14,7 +14,6 @@ public class AdvancedOperator {
         while (!content.matches("-?\\d+([.,]\\d+(E\\d+)?)?")) {
             content = content.replaceAll("sqrt", "2sqr");
 
-
             var mostImportantPattern = Pattern.compile("-?\\d+([,.]\\d+)? ?(\\^|(sqr)) ?-?\\d+([,.]\\d+)?");
             var midImportantPattern = Pattern.compile("-?\\d+([,.]\\d+)? ?[*/\\\\] ?-?\\d+([,.]\\d+)?");
             var leastImportantPattern =  Pattern.compile("-?\\d+([,.]\\d+)? ?[+-] ?-?\\d+([,.]\\d+)?");

@@ -47,11 +47,11 @@ public class BasicOperator {
                 case "*" -> new Operator(Type.MUL);
                 case "/","\\\\" -> new Operator(Type.DIV);
                 case "^" -> new Operator(Type.POW);
-                default -> new Operator(Type.SQR);
+                default -> new Operator(Type.SUR);
             };
             result = count(elements);
         }
-        else throw new MathException("Wrong input: " + equation);
+        else throw new MathException("Syntax Error: " + equation);
     }
 
     public static Double count(Element<?>[] elements) {
@@ -61,7 +61,7 @@ public class BasicOperator {
             case MUL -> (double)elements[0].value * (double)elements[2].value;
             case DIV -> (double)elements[0].value / (double)elements[2].value;
             case POW -> Math.pow((double)elements[0].value, (double)elements[2].value);
-            case SQR -> Math.pow((double)elements[2].value, 1/(double)elements[0].value);
+            case SUR -> Math.pow((double)elements[2].value, 1/(double)elements[0].value);
         };
     }
 }
