@@ -12,8 +12,6 @@ public class AdvancedOperator {
         equation = content;
 
         while (!content.matches("-?\\d+([.,]\\d+(E\\d+)?)?")) {
-            //todo what happens when "sqrt 15"?
-            //todo sqr
             content = content.replaceAll("sqrt", "2sqr");
 
 
