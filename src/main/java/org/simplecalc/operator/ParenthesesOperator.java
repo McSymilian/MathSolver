@@ -1,6 +1,7 @@
 package org.simplecalc.operator;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.simplecalc.exception.MathException;
 import org.simplecalc.exception.ParenthesesException;
 
@@ -8,7 +9,8 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 @Data
-public class ParenthesesOperator {
+@EqualsAndHashCode(callSuper=true)
+public class ParenthesesOperator extends MathOperator {
 
     private final Double result;
     private final String equation;
@@ -16,6 +18,7 @@ public class ParenthesesOperator {
     public ParenthesesOperator(String content) throws MathException {
         equation = content;
         if (checkParentheses(content)) {
+            content = content.replace(")(", ")*(");
             var multiplyParPattern = Pattern.compile("(?<value>\\d+(,\\d+)?)\\(");
             var multiplyParMatch = multiplyParPattern.matcher(content);
             while (multiplyParMatch.find())

@@ -1,20 +1,22 @@
 package org.simplecalc.operator;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.simplecalc.exception.MathException;
 
 import java.util.regex.Pattern;
 @Data
-public class AdvancedOperator {
+@EqualsAndHashCode(callSuper=true)
+public class AdvancedOperator extends MathOperator {
     private final Double result;
     private final String equation;
     public AdvancedOperator(String content) throws MathException {
         equation = content;
 
         while (!content.matches("-?\\d+([.,]\\d+(E\\d+)?)?")) {
-            content = content.replaceAll("sqrt", "2sqr");
+            content = content.replaceAll("sqrt", "2surd");
 
-            var mostImportantPattern = Pattern.compile("-?\\d+([,.]\\d+)? ?(\\^|(sqr)) ?-?\\d+([,.]\\d+)?");
+            var mostImportantPattern = Pattern.compile("-?\\d+([,.]\\d+)? ?(\\^|(surd)) ?-?\\d+([,.]\\d+)?");
             var midImportantPattern = Pattern.compile("-?\\d+([,.]\\d+)? ?[*/\\\\] ?-?\\d+([,.]\\d+)?");
             var leastImportantPattern =  Pattern.compile("-?\\d+([,.]\\d+)? ?[+-] ?-?\\d+([,.]\\d+)?");
 
@@ -31,7 +33,7 @@ public class AdvancedOperator {
                 content = content.replaceFirst(leastImportantPattern.pattern(), new BasicOperator(leastMatch.group()).getResult().toString());
             }
             else {
-                throw new MathException("Syntax error: " + content);
+                 throw new MathException("Syntax error: " + content);
             }
 
         }

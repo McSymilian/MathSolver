@@ -5,9 +5,40 @@ import org.junit.jupiter.api.Test;
 import org.simplecalc.exception.MathException;
 
 class BasicOperatorTest {
-    //todo more test
     @Test
-    public void powTest() throws MathException {
+    public void addTest() throws MathException {
+        Assertions.assertEquals(2, new BasicOperator("1+1").getResult());
+        Assertions.assertEquals(0, new BasicOperator("1+-1").getResult());
+        Assertions.assertEquals(-4, new BasicOperator("-2+-2").getResult());
+        Assertions.assertEquals(2.5, new BasicOperator("0,5+2").getResult());
+        Assertions.assertEquals(-3.5, new BasicOperator("-4+0,5").getResult());
+    }
+    @Test
+    public void subtractionTest() throws MathException {
+        Assertions.assertEquals(0, new BasicOperator("1-1").getResult());
+        Assertions.assertEquals(-1, new BasicOperator("-1-0").getResult());
+        Assertions.assertEquals(0, new BasicOperator("-2--2").getResult());
+        Assertions.assertEquals(-1.5, new BasicOperator("0,5-2").getResult());
+        Assertions.assertEquals(4.5, new BasicOperator("4--0,5").getResult());
+    }
+    @Test
+    public void divisionTest() throws MathException {
+        Assertions.assertEquals(1, new BasicOperator("1/1").getResult());
+        Assertions.assertEquals(0, new BasicOperator("0/1").getResult());
+        Assertions.assertEquals(2.5/2, new BasicOperator("2.5/2").getResult());
+        Assertions.assertEquals(0.5/-2, new BasicOperator("0,5/-2").getResult());
+        Assertions.assertEquals(-4/-0.5, new BasicOperator("-4/-0,5").getResult());
+    }
+    @Test
+    public void multiplyTest() throws MathException {
+        Assertions.assertEquals(1, new BasicOperator("1*1").getResult());
+        Assertions.assertEquals(0, new BasicOperator("1*0").getResult());
+        Assertions.assertEquals(-4, new BasicOperator("2*-2").getResult());
+        Assertions.assertEquals(-1, new BasicOperator("-0,5*2").getResult());
+        Assertions.assertEquals(2, new BasicOperator("-4*-0,5").getResult());
+    }
+    @Test
+    public void powerTest() throws MathException {
         Assertions.assertEquals(1, new BasicOperator("1^1").getResult());
         Assertions.assertEquals(1, new BasicOperator("1^0").getResult());
         Assertions.assertEquals(4, new BasicOperator("2^2").getResult());
@@ -15,11 +46,11 @@ class BasicOperatorTest {
         Assertions.assertEquals(2, new BasicOperator("4^0,5").getResult());
     }
     @Test
-    public void sqrTest() throws MathException {
-        Assertions.assertEquals(2, new BasicOperator("2sqr4").getResult());
-        Assertions.assertEquals(5, new BasicOperator("2sqr25").getResult());
-        Assertions.assertEquals(5, new BasicOperator("3sqr125").getResult(), 0.0000001);
-        Assertions.assertEquals(4, new BasicOperator("0,5sqr2").getResult());
-        Assertions.assertEquals(4, new BasicOperator("1sqr4").getResult());
+    public void surdTest() throws MathException {
+        Assertions.assertEquals(2, new BasicOperator("sqrt4").getResult());
+        Assertions.assertEquals(5, new BasicOperator("sqr25").getResult());
+        Assertions.assertEquals(5, new BasicOperator("3surd125").getResult(), 0.0000001);
+        Assertions.assertEquals(4, new BasicOperator("0,5surd2").getResult());
+        Assertions.assertEquals(4, new BasicOperator("1surd4").getResult());
     }
 }
