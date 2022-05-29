@@ -35,7 +35,7 @@ public class AdvancedOperator extends MathOperator {
                 content = content.replaceFirst(midImportantPattern.pattern(), new BasicOperator(midMatch.group()).getResult().toString());
             else if (leastMatch.find())
                 content = content.replaceFirst(leastImportantPattern.pattern(), new BasicOperator(leastMatch.group()).getResult().toString());
-            else throw new MathException("Syntax error: " + content);
+            else throw new MathException();
 
         }
         result = Double.parseDouble(content);

@@ -18,7 +18,7 @@ public class ParenthesesOperator extends MathOperator {
     public ParenthesesOperator(String content) throws MathException {
         equation = content;
 
-        if (!checkParentheses(content)) throw new ParenthesesException("Syntax Error: ");
+        if (!checkParentheses(content)) throw new ParenthesesException();
 
         content = content.replace(")(", ")*(");
         var multiplyParPattern = Pattern.compile("(?<value>\\d+(,\\d+)?)\\(");

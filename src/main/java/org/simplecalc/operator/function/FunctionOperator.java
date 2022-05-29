@@ -95,7 +95,7 @@ public class FunctionOperator extends MathOperator {
         }
 
         if (!simpleMatch.matches())
-            throw new FunctionException("Syntax Error: ");
+            throw new FunctionException();
 
         funName = simpleMatch.group("name");
 

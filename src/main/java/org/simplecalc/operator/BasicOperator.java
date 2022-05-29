@@ -35,7 +35,7 @@ public class BasicOperator extends MathOperator {
         var basicMatch = basicPattern.matcher(content);
 
         if (!basicMatch.matches())
-            throw new MathException("Syntax Error: " + equation);
+            throw new MathException();
 
         elements[0] = new Number<>(
                 Double.parseDouble(
