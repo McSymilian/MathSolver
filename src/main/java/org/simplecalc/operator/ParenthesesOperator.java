@@ -17,25 +17,27 @@ public class ParenthesesOperator extends MathOperator {
 
     public ParenthesesOperator(String content) throws MathException {
         equation = content;
-        if (checkParentheses(content)) {
-            content = content.replace(")(", ")*(");
-            var multiplyParPattern = Pattern.compile("(?<value>\\d+(,\\d+)?)\\(");
-            var multiplyParMatch = multiplyParPattern.matcher(content);
-            while (multiplyParMatch.find())
-                content = content.replaceFirst(multiplyParPattern.pattern(), multiplyParMatch.group("value") + "*(");
 
-            var pattern = Pattern.compile("[(\\[{] ?([^(){}\\[\\]]+) ?[)\\]}]");
+        if (!checkParentheses(content)) throw new ParenthesesException("Syntax Error: ");
 
-            while (content.matches(".*" + pattern.pattern() + ".*")) {
-                var parMatch = pattern.matcher(content);
+        content = content.replace(")(", ")*(");
+        var multiplyParPattern = Pattern.compile("(?<value>\\d+(,\\d+)?)\\(");
+        var multiplyParMatch = multiplyParPattern.matcher(content);
+        while (multiplyParMatch.find())
+            content = content.replaceFirst(multiplyParPattern.pattern(), multiplyParMatch.group("value") + "*(");
 
-                while (parMatch.find()) {
-                    content = content.replaceFirst(pattern.pattern(), new AdvancedOperator(parMatch.group(1)).getResult().toString());
-                }
+        var pattern = Pattern.compile("[(\\[{] ?([^(){}\\[\\]]+) ?[)\\]}]");
+
+        while (content.matches(".*" + pattern.pattern() + ".*")) {
+            var parMatch = pattern.matcher(content);
+
+            while (parMatch.find()) {
+                content = content.replaceFirst(pattern.pattern(), new AdvancedOperator(parMatch.group(1)).getResult().toString());
             }
+        }
 
-            result = new AdvancedOperator(content).getResult();
-        } else throw new ParenthesesException("Syntax Error: " + equation);
+        result = new AdvancedOperator(content).getResult();
+
 
     }
 

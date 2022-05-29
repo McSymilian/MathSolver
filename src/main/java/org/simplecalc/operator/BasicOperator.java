@@ -17,6 +17,12 @@ public class BasicOperator extends MathOperator {
     public final Element<?>[] elements = new Element[3];
     private final Double result;
     private final String equation;
+    private final Pattern basicPattern = Pattern.compile(
+            "(?<first>" + Number.getSimplePattern().pattern() + ") ?" +
+                    "(?<operator>" + Operator.getPattern().pattern() + ") ?" +
+                    "(?<second>" + Number.getSimplePattern().pattern() + ")");
+
+
 
     public BasicOperator(String content) throws MathException {
         equation = content;
@@ -26,40 +32,28 @@ public class BasicOperator extends MathOperator {
                 .replace(",", ".")
                 .toLowerCase(Locale.ROOT);
 
-        var basicPattern = Pattern.compile("(?<first>-?\\d+([,.]\\d+)?) ?(?<operator>[+\\-/\\\\*^]|(surd)) ?(?<second>-?\\d+([,.]\\d+)?)");
         var basicMatch = basicPattern.matcher(content);
 
-        var sqrtPattern = Pattern.compile("sqrt? ?(?<value>-?\\d+([,.]\\d+)?)");
-        var sqrtMatcher = sqrtPattern.matcher(content);
+        if (!basicMatch.matches())
+            throw new MathException("Syntax Error: " + equation);
 
-        if (basicMatch.matches()) {
-            elements[0] = new Number<>(
-                    Double.parseDouble(
-                            basicMatch.group("first"))
-            );
-            elements[2] = new Number<>(
-                    Double.parseDouble(
-                            basicMatch.group("second"))
-            );
+        elements[0] = new Number<>(
+                Double.parseDouble(
+                        basicMatch.group("first"))
+        );
+        elements[2] = new Number<>(
+                Double.parseDouble(
+                        basicMatch.group("second"))
+        );
 
-            elements[1] = switch (basicMatch.group("operator")) {
-                case "+" -> new Operator(Type.ADD);
-                case "-" -> new Operator(Type.SUB);
-                case "*" -> new Operator(Type.MUL);
-                case "/","\\\\" -> new Operator(Type.DIV);
-                case "^" -> new Operator(Type.POW);
-                default -> new Operator(Type.SUR);
-            };
-            result = count(elements);
-        }
-        else if (sqrtMatcher.matches()) {
-            elements[0] = new Number<>(2.0);
-            elements[1] = new Operator(Type.SUR);
-            elements[2] = new Number<>(
-                    Double.parseDouble(
-                            sqrtMatcher.group("value")));
-            result = count(elements);
-        } else throw new MathException("Syntax Error: " + equation);
+        elements[1] = switch (basicMatch.group("operator")) {
+            case "+" -> new Operator(Type.ADD);
+            case "-" -> new Operator(Type.SUB);
+            case "*" -> new Operator(Type.MUL);
+            case "^" -> new Operator(Type.POW);
+            default -> new Operator(Type.DIV);
+        };
+        result = count(elements);
     }
 
     public static Double count(Element<?>[] elements) {
@@ -69,7 +63,6 @@ public class BasicOperator extends MathOperator {
             case MUL -> (double)elements[0].value * (double)elements[2].value;
             case DIV -> (double)elements[0].value / (double)elements[2].value;
             case POW -> Math.pow((double)elements[0].value, (double)elements[2].value);
-            case SUR -> Math.pow((double)elements[2].value, 1/(double)elements[0].value);
         };
     }
 }

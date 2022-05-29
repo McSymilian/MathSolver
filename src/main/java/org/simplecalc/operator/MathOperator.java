@@ -1,4 +1,5 @@
 package org.simplecalc.operator;
 
-abstract class MathOperator {
+abstract public class MathOperator {
+
 }
