@@ -2,7 +2,6 @@ package org.simplecalc.operator;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.simplecalc.exception.FunctionException;
 import org.simplecalc.exception.MathException;
 import org.simplecalc.operator.function.FunctionOperator;
 

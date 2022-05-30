@@ -6,7 +6,7 @@ import org.simplecalc.exception.MathException;
 import org.simplecalc.operator.element.Element;
 import org.simplecalc.operator.element.Number;
 import org.simplecalc.operator.element.Operator;
-import org.simplecalc.operator.element.Operator.Type;
+import org.simplecalc.operator.element.OperatorType;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -46,7 +46,7 @@ public class BasicOperator extends MathOperator {
                         basicMatch.group("second"))
         );
 
-        result = Arrays.stream(Operator.Type.values())
+        result = Arrays.stream(OperatorType.values())
                 .filter(type -> basicMatch.group("operator").equals(type.value))
                 .limit(1)
                 .toList()
