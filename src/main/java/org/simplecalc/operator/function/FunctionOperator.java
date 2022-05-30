@@ -2,6 +2,7 @@ package org.simplecalc.operator.function;
 
 import lombok.Getter;
 import org.simplecalc.exception.FunctionException;
+import org.simplecalc.exception.MathException;
 import org.simplecalc.operator.MathOperator;
 import org.simplecalc.operator.element.Number;
 
@@ -75,7 +76,7 @@ public class FunctionOperator extends MathOperator {
                 .map(type -> "(" + type.getDefaultSyntax() + ")|(" + type.getSpareSyntax() + ")");
     }
 
-    public FunctionOperator(String equation) throws FunctionException {
+    public FunctionOperator(String equation) throws MathException {
         this.equation = equation;
         equation = equation.replace(" ", "");
 
@@ -90,7 +91,7 @@ public class FunctionOperator extends MathOperator {
                     .limit(1)
                     .toList()
                     .get(0)
-                    .method(Double.parseDouble(advancedMatch.group("value")), Double.parseDouble(advancedMatch.group("additive")));
+                    .calculate(Double.parseDouble(advancedMatch.group("value")), Double.parseDouble(advancedMatch.group("additive")));
             return;
         }
 
@@ -104,6 +105,6 @@ public class FunctionOperator extends MathOperator {
                 .limit(1)
                 .toList()
                 .get(0)
-                .method(Double.parseDouble(simpleMatch.group("value")));
+                .calculate(Double.parseDouble(simpleMatch.group("value")));
     }
 }

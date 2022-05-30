@@ -8,13 +8,13 @@ import org.simplecalc.operator.element.Number;
 import org.simplecalc.operator.element.Operator;
 import org.simplecalc.operator.element.Operator.Type;
 
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class BasicOperator extends MathOperator {
-    public final Element<?>[] elements = new Element[3];
     private final Double result;
     private final String equation;
     private final Pattern basicPattern = Pattern.compile(
@@ -37,32 +37,32 @@ public class BasicOperator extends MathOperator {
         if (!basicMatch.matches())
             throw new MathException();
 
-        elements[0] = new Number<>(
+        var first = new Number<>(
                 Double.parseDouble(
                         basicMatch.group("first"))
         );
-        elements[2] = new Number<>(
+        var second = new Number<>(
                 Double.parseDouble(
                         basicMatch.group("second"))
         );
 
-        elements[1] = switch (basicMatch.group("operator")) {
-            case "+" -> new Operator(Type.ADD);
-            case "-" -> new Operator(Type.SUB);
-            case "*" -> new Operator(Type.MUL);
-            case "^" -> new Operator(Type.POW);
-            default -> new Operator(Type.DIV);
-        };
-        result = count(elements);
+        result = Arrays.stream(Operator.Type.values())
+                .filter(type -> basicMatch.group("operator").equals(type.value))
+                .limit(1)
+                .toList()
+                .get(0)
+                .calculate(first.value, second.value);
     }
 
-    public static Double count(Element<?>[] elements) {
-        return switch ((Type) elements[1].value) {
-            case ADD -> (double)elements[0].value + (double)elements[2].value;
-            case SUB -> (double)elements[0].value - (double)elements[2].value;
-            case MUL -> (double)elements[0].value * (double)elements[2].value;
-            case DIV -> (double)elements[0].value / (double)elements[2].value;
-            case POW -> Math.pow((double)elements[0].value, (double)elements[2].value);
-        };
+    public static Double count(Element<?>... elements) throws MathException {
+        if (elements[0] instanceof Operator operator)
+            return operator.value.calculate(
+                    Arrays.stream(elements)
+                            .filter(element -> element instanceof Number)
+                            .map(element -> Double.parseDouble(element.value.toString()))
+                            .toArray(Double[]::new)
+                    );
+
+        else throw new IllegalStateException("First element must be operator");
     }
 }

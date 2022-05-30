@@ -1,12 +1,16 @@
 package org.simplecalc.operator.function;
 
 import lombok.Getter;
+import org.simplecalc.exception.FunctionException;
+import org.simplecalc.operator.CalculationOperator;
 
-public enum AdvancedFunctionType {
+public enum AdvancedFunctionType implements CalculationOperator {
     SURD("surd", "srd") {
         @Override
-        public Double method(Double value, Double additive) {
-            return Math.pow(value, 1 / additive);
+        public Double calculate(Double... args) throws FunctionException {
+            if (args.length != 2) throw new FunctionException(this, args.length);
+
+            return Math.pow(args[0], 1 / args[1]);
         }
     };
 
@@ -24,6 +28,4 @@ public enum AdvancedFunctionType {
         this.defaultSyntax = defaultSyntax;
         this.spareSyntax = spareSyntax;
     }
-
-    abstract Double method(Double value, Double additive);
 }

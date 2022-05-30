@@ -45,12 +45,4 @@ class BasicOperatorTest {
         Assertions.assertEquals(1/4.0, new BasicOperator("0,5^2").getResult());
         Assertions.assertEquals(2, new BasicOperator("4^0,5").getResult());
     }
-    @Test
-    public void surdTest() throws MathException {
-        Assertions.assertEquals(2, new BasicOperator("sqrt4").getResult());
-        Assertions.assertEquals(5, new BasicOperator("sqr25").getResult());
-        Assertions.assertEquals(5, new BasicOperator("3surd125").getResult(), 0.0000001);
-        Assertions.assertEquals(4, new BasicOperator("0,5surd2").getResult());
-        Assertions.assertEquals(4, new BasicOperator("1surd4").getResult());
-    }
 }

@@ -2,7 +2,6 @@ package org.simplecalc.operator;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.simplecalc.exception.FunctionException;
 import org.simplecalc.exception.MathException;
 import org.simplecalc.exception.ParenthesesException;
 
